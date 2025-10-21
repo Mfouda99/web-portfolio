@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initScrollReveal();
     initParticles();
     initTypingEffect();
-    initFormHandling();
     initBackToTop();
     initSkillProgressBars();
 });
@@ -154,27 +153,7 @@ function initParticles() {
     document.head.appendChild(style);
 }
 
-// ===== MAGNETIC BUTTONS =====
-function initMagneticButtons() {
-    const magneticElements = document.querySelectorAll('[data-magnetic]');
-    
-    magneticElements.forEach(el => {
-        el.addEventListener('mousemove', function(e) {
-            const rect = this.getBoundingClientRect();
-            const x = e.clientX - rect.left - rect.width / 2;
-            const y = e.clientY - rect.top - rect.height / 2;
-            
-            const moveX = x * 0.3;
-            const moveY = y * 0.3;
-            
-            this.style.transform = `translate(${moveX}px, ${moveY}px)`;
-        });
-        
-        el.addEventListener('mouseleave', function() {
-            this.style.transform = 'translate(0, 0)';
-        });
-    });
-}
+
 
 // ===== TYPING EFFECT =====
 function initTypingEffect() {
@@ -220,23 +199,7 @@ function initTypingEffect() {
 }
 
 // ===== COUNTER ANIMATION =====
-function initCounters() {
-    const counters = document.querySelectorAll('[data-count]');
-    
-    const counterObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const target = parseInt(entry.target.getAttribute('data-count'));
-                animateCounter(entry.target, target);
-                counterObserver.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.5 });
-    
-    counters.forEach(counter => {
-        counterObserver.observe(counter);
-    });
-}
+
 
 function animateCounter(element, target) {
     let current = 0;
@@ -256,34 +219,7 @@ function animateCounter(element, target) {
 }
 
 // ===== FORM HANDLING =====
-function initFormHandling() {
-    const form = document.querySelector('.contact-form-premium');
-    if (!form) return;
-    
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        const formData = new FormData(form);
-        const data = Object.fromEntries(formData);
-        
-        // Show loading state
-        const submitBtn = form.querySelector('button[type="submit"]');
-        const originalText = submitBtn.innerHTML;
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
-        submitBtn.disabled = true;
-        
-        // Simulate sending (replace with actual API call)
-        setTimeout(() => {
-            // Show success message
-            showNotification('Message sent successfully! I\'ll get back to you soon.', 'success');
-            form.reset();
-            
-            // Reset button
-            submitBtn.innerHTML = originalText;
-            submitBtn.disabled = false;
-        }, 1500);
-    });
-}
+
 
 // ===== NOTIFICATION SYSTEM =====
 function showNotification(message, type = 'success') {
@@ -376,45 +312,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// ===== PARALLAX EFFECT =====
-window.addEventListener('scroll', () => {
-    const scrolled = window.scrollY;
-    
-    // Parallax for hero sphere
-    const heroSphere = document.querySelector('.hero-sphere');
-    if (heroSphere) {
-        heroSphere.style.transform = `rotate(${scrolled * 0.1}deg)`;
-    }
-    
-    // Parallax for floating shapes
-    const shapes = document.querySelectorAll('.shape');
-    shapes.forEach((shape, index) => {
-        const speed = (index + 1) * 0.05;
-        shape.style.transform = `translateY(${scrolled * speed}px)`;
-    });
-});
 
-// ===== PROJECT CARD 3D TILT EFFECT =====
-const projectCards = document.querySelectorAll('.project-card');
-projectCards.forEach(card => {
-    card.addEventListener('mousemove', (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-        
-        const rotateX = (y - centerY) / 20;
-        const rotateY = (centerX - x) / 20;
-        
-        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`;
-    });
-    
-    card.addEventListener('mouseleave', () => {
-        card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
-    });
-});
 
 // ===== PAGE LOAD ANIMATION =====
 window.addEventListener('load', () => {
